@@ -1,8 +1,7 @@
 #include "defs.h"
-/* $Id: config.h,v 1.3 2002/05/01 23:38:26 radkade1 Exp $ -*- C -*-
- *
- * The Unity Project
- * Copyright (C) 2001  Ryan Pavlik
+/*
+ * PROJECT
+ * Copyright (C) YEAR  Ryan Pavlik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,8 +19,8 @@
  *
  */
 
-#ifndef UNITY_CONFIG_H
-#define UNITY_CONFIG_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
 #ifndef __GNUC__
      /* We can use this extension to get rid of some superfluous warnings */
@@ -43,11 +42,4 @@
 #    define bindtextdomain(Package, Directory)
 #endif
 
-/***
- *** Settings
- **/
-#define DEF_TCP_PORT      42421
-#define DEF_SOCKET_PATH   "/tmp/.s.unity"
-#define DEF_PROCESS_LIMIT 0
-
-#endif /* UNITY_CONFIG_H */
+#endif /* CONFIG_H */
