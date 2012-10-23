@@ -1,7 +1,7 @@
 #include "defs.h"
 /*
- * PROJECT
- * Copyright (C) YEAR  Ryan Pavlik
+ * scriptlcom
+ * Copyright (C) 2012  Ryan Pavlik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

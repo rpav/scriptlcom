@@ -53,7 +53,7 @@ AC_ARG_ENABLE(debug, [  --enable-debug          enable debugging output [[defaul
 ])
 
 dnl And output
-AC_CONFIG_FILES([Makefile src/Makefile src/include/Makefile src/test/Makefile 
+AC_CONFIG_FILES([Makefile src/include/Makefile src/Makefile src/test/Makefile 
                ])
 
 AC_OUTPUT

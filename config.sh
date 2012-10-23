@@ -3,7 +3,7 @@
 ###
 
 # Project name
-export AUTO_PROJECT="PROJECT"
+export AUTO_PROJECT="scriptlcom"
 
 # Required autotools versions
 export REQ_AUTOCONF="2.53"
