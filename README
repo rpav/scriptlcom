@@ -25,7 +25,7 @@ Options:
       -I, --inet       Use an inet socket, connecting to --host and --port;
                        defaults to localhost:4010
       -U, --uds        Use a Unix Domain Socket (with optional filename);
-                       defaults to /home/rpav/.scriptl-sock
+                       defaults to $HOME/.scriptl-sock
 
       --sl-version     Call using a specific ScriptL version
 
