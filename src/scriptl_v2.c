@@ -65,7 +65,7 @@ void scl_write_header_v2(scl_config_t *config, int fd) {
 
     scl_write_packet(fd, "(:scriptl 2)", 0);
     scl_write_cwd_v2(fd);
-    scl_writef_packet(fd, "(:funcall %s #P\"%s/\")",
+    scl_writef_packet(fd, "(:funcall %s #P\"%s\")",
                       config->function, config->script);
     scl_writef_packet(fd, "(:errors %s)",
                       config->errors ? config->errors : "nil");
