@@ -2,10 +2,9 @@ dnl $Id$
 
 dnl Bookkeeping
 AC_PREREQ(2.52)
-AC_REVISION($Id$)
 
 dnl Initialize autoconf and automake
-AC_INIT([PROJECT], [0.0.0])
+AC_INIT([scriptlcom], [1.0.0])
 AC_SUBST([PACKAGE_NAME])dnl
 
 AM_INIT_AUTOMAKE
@@ -37,6 +36,8 @@ AC_CHECK_TYPES([int8_t,  int16_t,  int32_t,  int64_t,
 dnl Library function checking
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([getopt_long])
+
+AC_CHECK_LIB([readline], [readline])
 
 dnl Miscellaneousness
 AC_C_BIGENDIAN

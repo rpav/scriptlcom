@@ -59,7 +59,8 @@ int scl_process_args(int argc, char *argv[], scl_config_t *config);
 
 /* Misc */
 
-
+char *scl_readline(char *prompt);
+void scl_addhistory(char *line);
 
 /* Net */
 int scl_connect(scl_config_t *config);

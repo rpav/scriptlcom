@@ -160,16 +160,27 @@ char* scl_read_packet(int fd, int *len) {
     size_t size = 0;
     char *buf = NULL;
     
-    scl_read_n(fd, numbuf, 8);
+    if(scl_read_n(fd, numbuf, 8) != 8)
+        goto error;
+
     size = (size_t)strtoul(numbuf, 0, 16);
 
     buf = malloc(size+1);
     scl_read_n(fd, buf, size);
     buf[size] = 0;
-
     if(len) *len = size;
 
     return buf;
+
+ error:
+    /* The len check is sortof an "are they paying attention" check */
+    if(!len) {
+        printf("scriptlcom: unexpected null packet: exit\n");
+        exit(1);
+    } else {
+        *len = 0;
+        return NULL;
+    }
 }
 
 char* scl_read_line(int fd) {

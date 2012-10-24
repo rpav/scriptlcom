@@ -36,12 +36,16 @@ dfn(print_h);
 dfn(error_h);
 dfn(read_line_h);
 dfn(read_bytes_h);
+dfn(interactive_readline_h);
+dfn(interactive_addhistory_h);
 
 static dispatch_table_v2_t table_v2[] = {
     { ":print", print_h },
     { ":error", error_h },
     { ":read-line", read_line_h },
     { ":read-bytes", read_bytes_h },
+    { ":interactive-readline", interactive_readline_h },
+    { ":interactive-addhistory", interactive_addhistory_h },
     { 0, 0 }
 };
 
@@ -81,8 +85,8 @@ void scl_funcall2(scl_config_t *config, int fd) {
     while((packet = scl_read_packet(fd, &len))) {
         int handled = 0;
 
-        if(len == 0) {
-            free(packet);
+        if(!packet) {
+            printf("scriptlcom: null command: exit\n");
             return;
         }
 
@@ -94,7 +98,8 @@ void scl_funcall2(scl_config_t *config, int fd) {
         }
 
         if(!handled) {
-            printf("scriptlcom: unhandled command: %s\n", packet);
+            printf("scriptlcom: unhandled command (len=%d): \"%s\"\n",
+                   len, packet);
             exit(1);
         }
         
@@ -138,4 +143,24 @@ dfn(read_bytes_h) {
     bytes_read = read(STDIN_FILENO, data, c);
 
     scl_write_packet(fd, data, bytes_read);
+}
+
+dfn(interactive_readline_h) {
+    char *prompt, *input;
+
+    prompt = scl_read_packet(fd, NULL);
+    input = scl_readline(prompt);
+
+    scl_write_packet(fd, input, 0);
+    free(prompt);
+    free(input);
+}
+
+dfn(interactive_addhistory_h) {
+    char *line;
+
+    line = scl_read_packet(fd, NULL);
+    scl_addhistory(line);
+
+    free(line);
 }
