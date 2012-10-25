@@ -131,6 +131,7 @@ dfn(read_line_h) {
     char *line = NULL;
 
     line = scl_read_line(STDIN_FILENO);
+    
     scl_write_packet(fd, line, 0);
     free(line);
 }
@@ -154,9 +155,14 @@ dfn(interactive_readline_h) {
     prompt = scl_read_packet(fd, NULL);
     input = scl_readline(prompt);
 
-    scl_write_packet(fd, input, 0);
+    if(input) {
+        scl_write_packet(fd, input, 0);
+        free(input);
+    } else {
+        scl_write_packet(fd, "", 0);
+    }
+    
     free(prompt);
-    free(input);
 }
 
 dfn(interactive_addhistory_h) {
