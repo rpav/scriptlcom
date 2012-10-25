@@ -34,6 +34,7 @@ static struct option options[] = {
     { "sl-version", required_argument, &long_opt, SL_VERSION },
     { "funcall",    required_argument, 0, 'f' },
     { "eval",       required_argument, 0, 'e' },
+    { "load",       required_argument, 0, 'l' },
     { "errors",     required_argument, 0, 'E' },
     { "host",       required_argument, 0, 'H' },
     { "port",       required_argument, 0, 'P' },
@@ -55,6 +56,7 @@ void scl_default_config(scl_config_t *config) {
     config->conntype = CON_UDS;
     config->function = NULL;
     config->errors   = NULL;
+    config->system   = NULL;
     config->host     = DEFAULT_HOST;
     config->port     = DEFAULT_PORT;
     config->uds_path = default_uds;
@@ -77,6 +79,7 @@ static void usage(void) {
            "                       defaults to %s:%s\n"
            "      -U, --uds        Use a Unix Domain Socket (with optional filename);\n"
            "                       defaults to %s/%s\n"
+           "      -l, --load       ASDF:LOAD-SYSTEM before a FUNCALL\n"
            "\n"
            "      --sl-version     Call using a specific ScriptL version\n"
            "\n"
@@ -90,7 +93,7 @@ int scl_process_args(int argc, char *argv[], scl_config_t *config) {
     config->script = argv[0];
 
     for(;;) {
-        o = getopt_long(argc, argv, "e:f:E:H:P:IU::h", options, &index);
+        o = getopt_long(argc, argv, "e:f:l:E:H:P:IU::h", options, &index);
 
         if(o == -1)
             break;
@@ -104,6 +107,10 @@ int scl_process_args(int argc, char *argv[], scl_config_t *config) {
             case 'e':
                 config->op       = OP_EVAL;
                 config->function = optarg;
+                break;
+
+            case 'l':
+                config->system = optarg;
                 break;
 
             case SL_VERSION:

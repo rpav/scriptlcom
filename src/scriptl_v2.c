@@ -38,6 +38,7 @@ dfn(read_line_h);
 dfn(read_bytes_h);
 dfn(interactive_readline_h);
 dfn(interactive_addhistory_h);
+dfn(exit_h);
 
 static dispatch_table_v2_t table_v2[] = {
     { ":print", print_h },
@@ -46,6 +47,7 @@ static dispatch_table_v2_t table_v2[] = {
     { ":read-bytes", read_bytes_h },
     { ":interactive-readline", interactive_readline_h },
     { ":interactive-addhistory", interactive_addhistory_h },
+    { ":exit", exit_h },
     { 0, 0 }
 };
 
@@ -65,8 +67,9 @@ void scl_write_header_v2(scl_config_t *config, int fd) {
 
     scl_write_packet(fd, "(:scriptl 2)", 0);
     scl_write_cwd_v2(fd);
-    scl_writef_packet(fd, "(:funcall %s #P\"%s\")",
-                      config->function, config->script);
+    scl_writef_packet(fd, "(:funcall \"%s\" #P\"%s\" \"%s\")",
+                      config->function, config->script,
+                      config->system ? config->system : "");
     scl_writef_packet(fd, "(:errors %s)",
                       config->errors ? config->errors : "nil");
 
@@ -163,4 +166,13 @@ dfn(interactive_addhistory_h) {
     scl_addhistory(line);
 
     free(line);
+}
+
+dfn(exit_h) {
+    char *str = scl_read_packet(fd, NULL);
+    int code = (int)strtoul(str, NULL, 10);
+
+    free(str);
+
+    exit(code);
 }

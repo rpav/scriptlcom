@@ -42,6 +42,7 @@ typedef struct scl_config {
     char **argv;
 
     scl_op_t op;
+    char *system;
     char *script;
     char *function;
     char *errors;
