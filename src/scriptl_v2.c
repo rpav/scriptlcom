@@ -38,6 +38,7 @@ dfn(read_line_h);
 dfn(read_bytes_h);
 dfn(interactive_readline_h);
 dfn(interactive_addhistory_h);
+dfn(getenv_h);
 dfn(exit_h);
 
 static dispatch_table_v2_t table_v2[] = {
@@ -47,6 +48,7 @@ static dispatch_table_v2_t table_v2[] = {
     { ":read-bytes", read_bytes_h },
     { ":interactive-readline", interactive_readline_h },
     { ":interactive-addhistory", interactive_addhistory_h },
+    { ":getenv", getenv_h },
     { ":exit", exit_h },
     { 0, 0 }
 };
@@ -172,6 +174,22 @@ dfn(interactive_addhistory_h) {
     scl_addhistory(line);
 
     free(line);
+}
+
+dfn(getenv_h) {
+    char *var, *val;
+
+    var = scl_read_packet(fd, NULL);
+    val = getenv(var);
+
+    if(val) {
+        scl_write_packet(fd, "t", 0);
+        scl_write_packet(fd, val, 0);
+    } else {
+        scl_write_packet(fd, "nil", 0);
+    }
+
+    free(var);
 }
 
 dfn(exit_h) {
